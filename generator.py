@@ -1,6 +1,7 @@
 import csv
 import random
 import sys,os
+import time
 sys.path.append(os.getcwd())
 
 class Settings:
@@ -19,14 +20,17 @@ class Generator:
         self.settings = settings
         
     def generateDataCSV(self):
+        print("Generating...")
+        start = time.time()
         i = 0
         while i < self.settings.linesOfData: 
             row = list(self.settings.fields)
             self.parseRow(row)
-            print(row)
             self.settings.writer.writerow(row)
             i+=1
         self.settings.ofile.close()
+        end = time.time()
+        print("Done! - Finished in: %.2f seconds" % float(end-start))
     
     #customisable
     def parseRow(self, row):
@@ -66,4 +70,3 @@ class Generator:
             row[self.settings.fields.index(fields[1])] = "minus"
         
         row[self.settings.fields.index(fields[(len(fields)-1)])] = result
-        print(self.settings.fields.index(fields[0]))
