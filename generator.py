@@ -1,40 +1,69 @@
 import csv
 import random
+import sys,os
+sys.path.append(os.getcwd())
 
-class settings:
+class Settings:
     ofile  = open('output.csv', "w", newline='')
     writer = csv.writer(ofile)
     fields = ["Num1","Op","Num2","Result"]
     fieldsToRand = {"Num1":0, "Num2":2}
-    writer.writerow(fields)
+    linesOfData = 15
     
-    def settings(lines = 15):
+    def __init__(self, lines = 15):
         self.linesOfData = lines
+        self.writer.writerow(self.fields)
         
-class generator:
-    def generator(self, settings)
+class Generator:
+    def __init__(self, settings):
         self.settings = settings
         
     def generateDataCSV(self):
         i = 0
         while i < self.settings.linesOfData: 
-            row = self.settings.fields
-            self.parseRow
-            #print(row)
-            writer.writerow(row)
-            i+=1            
-        ofile.close()
+            row = list(self.settings.fields)
+            self.parseRow(row)
+            print(row)
+            self.settings.writer.writerow(row)
+            i+=1
+        self.settings.ofile.close()
+    
+    #customisable
+    def parseRow(self, row):
+        self.randomiseFields(row,999)
+        self.calculateField(row, "Num1", "Op", "Num2", "Result")
+        #self.calculateField(row, "All", allFields = True)
+    
+    def randomiseField(self, row, field, upperRange):
+        row[fieldsToRand[field]]=random.randint(1,upperRange)
         
-    def parseRow(self):
-        self.randomiseFields(row,(1,999))
-        
-    def randomiseField(self, row, field, range):
-        row[fieldsToRand[field]]=random.randint(range)
-        
-    def randomiseFields(self, row, range):
-        for value in fieldsToRand:
-            row[fieldsToRand] = random.randint(range)
-        
-    def calculateField(self, row, *field):
+    def randomiseFields(self, row, upperRange):
+        for value in self.settings.fieldsToRand:
+            row[self.settings.fieldsToRand[value]] = random.randint(1,upperRange)
+    
+    #customisable
+    def calculateField(self, row, *fields, allFields = False):
+        if allFields == True:
+            fields = list(self.settings.fields)
         #add your own algorithm here
-        row[fieldsToRand[field[2]]] = row[fieldsToRand[field[0]]] + row[fieldsToRand[field[1]]]
+        result = 0
+        op = random.randint(0,3)
+        if op == 0:
+            result = \
+            row[self.settings.fields.index(fields[0])] + row[self.settings.fields.index(fields[2])]
+            row[self.settings.fields.index(fields[1])] = "plus"
+        if op == 1:
+            result = \
+            row[self.settings.fields.index(fields[0])] - row[self.settings.fields.index(fields[2])]
+            row[self.settings.fields.index(fields[1])] = "minus"
+        if op == 2:
+            result = \
+            row[self.settings.fields.index(fields[0])] / row[self.settings.fields.index(fields[2])]
+            row[self.settings.fields.index(fields[1])] = "divide"
+        if op == 3:
+            result = \
+            row[self.settings.fields.index(fields[0])] * row[self.settings.fields.index(fields[2])]
+            row[self.settings.fields.index(fields[1])] = "minus"
+        
+        row[self.settings.fields.index(fields[(len(fields)-1)])] = result
+        print(self.settings.fields.index(fields[0]))
