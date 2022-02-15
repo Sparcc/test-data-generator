@@ -1,6 +1,4 @@
 test-data-generator
-# Contact
-Thomas Rea, thomas.rea@rxpservices.com, [github-repo]
 
 # Classes
 - Settings(lines = 15)
@@ -20,5 +18,3 @@ To extend functionality, the following functions must be examined:
 - calculateField(row, *fields, upperRange)
     - This does a calculation.
     - This can be rewritten to do different things.
-
-    [github-repo]: <https://github.com/Sparcc/test-data-generator>
